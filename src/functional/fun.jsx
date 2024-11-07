@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 function Axios() {
     const [data, setData] = useState([]);
+    const [editingId, setEditingId] = useState(null);
+    const [editingTitle, setEditingTitle] = useState("");
 
     function fetchData() {
         axios.get("http://localhost:3000/posts", {
@@ -26,12 +28,24 @@ function Axios() {
         });
     };
 
-    const dat = data.map((val, ind) => (
-        <div key={ind}>
-            <li>{val.title}</li>
-            <button onClick={() => del(val)}>Delete</button>
-        </div>
-    ));
+    const handleEdit = (val) => {
+        setEditingId(val.id);
+        setEditingTitle(val.title);
+    };
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        axios.put(`http://localhost:3000/posts/${editingId}`, { title: editingTitle }, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => {
+            console.log(response);
+            setEditingId(null);
+            setEditingTitle("");
+            fetchData(); // Refresh data after edit
+        });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,18 +63,37 @@ function Axios() {
         });
     };
 
+    const dat = data.map((val, ind) => (
+        <div key={ind}>
+            <li>{val.title}</li>
+            <button onClick={() => del(val)}>Delete</button>
+            <button onClick={() => handleEdit(val)}>Edit</button>
+        </div>
+    ));
+
     return (
         <>
             <h1>Hi, Todo with Axios</h1>
 
             <form onSubmit={handleSubmit}>
-                <input type="text" />
+                <input type="text" placeholder="Add new post" />
                 <input type="submit" value="Submit" />
             </form>
 
             <ul>
                 {dat}
             </ul>
+
+            {editingId && (
+                <form onSubmit={handleEditSubmit}>
+                    <input 
+                        type="text" 
+                        value={editingTitle} 
+                        onChange={(e) => setEditingTitle(e.target.value)} 
+                    />
+                    <input type="submit" value="Update" />
+                </form>
+            )}
         </>
     );
 }
