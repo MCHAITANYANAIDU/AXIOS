@@ -1,12 +1,12 @@
 
 // import './App.css'
-// import Axios from "./functional/fun"
-import Intial from "./router/initial "
-import Display from "./router/display"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import First from "./router/page1"
-import Second from "./router/page2"
-import Third from "./router/page3"
+import Axios from "./functional/fun"
+// import Intial from "./router/initial "
+// import Display from "./router/display"
+// import { BrowserRouter, Route, Routes } from "react-router-dom"
+// import First from "./router/page1"
+// import Second from "./router/page2"
+// import Third from "./router/page3"
 
 function App() {
   
@@ -14,12 +14,12 @@ function App() {
   return (
     <>
   
-      {/* <Axios/> */}
-      <Display/>
+      <Axios/>
+      {/* <Display/>
       <BrowserRouter>
-      <Intial/>
+      <Intial/> */}
      
-      <Routes>
+      {/* <Routes>
 
 
         <Route path="/" element={<Display/>}/>
@@ -27,7 +27,7 @@ function App() {
         <Route path="/page2" element={<Second/>}/>
         <Route path="/page3" element={<Third/>}/>
       </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </>
   )
 }
